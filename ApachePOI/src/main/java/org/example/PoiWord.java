@@ -13,12 +13,14 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
 import org.apache.poi.wp.usermodel.HeaderFooterType;
 import org.apache.poi.xwpf.usermodel.*;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcPr;
 
 import java.io.*;
+import java.math.BigInteger;
 
 public class PoiWord {
     // create docx file with 1 paragraph
-    public static void createWordDoc1() throws IOException {
+    public static void createWordReport() throws IOException {
 
         String fileName = "D:\\Software\\Project presentation\\ApachePOI\\output\\report1.docx";
 
@@ -259,5 +261,49 @@ public class PoiWord {
         System.out.println("Report with image is created");
     }
 
-    //
+    // create table 3*3
+    static void createTable() throws Exception {
+
+        try (XWPFDocument doc = new XWPFDocument()) {
+
+            XWPFTable table = doc.createTable();
+
+            //Creating first Row
+            XWPFTableRow row1 = table.getRow(0);
+            row1.getCell(0).setText("Bar Chart 1");
+            row1.addNewTableCell().setText("Bar Chart 2");
+
+// use bar chart method here
+//            BarChartNew barChart = new BarChartNew();
+//            barChart.createChartOnThirdPage(doc);
+
+//Creating second Row
+            XWPFTableRow row2 = table.createRow();
+
+// Adjusting cell width for the second row
+            CTTcPr cellPr3 = row2.getCell(0).getCTTc().addNewTcPr();
+            cellPr3.addNewTcW().setW(BigInteger.valueOf(Units.toEMU(10)));  // Set the width to 2 inches for example
+            row2.getCell(1).setWidth("20");
+
+// Adding paragraph with bar chart to the second row
+            row2.getCell(0).setText("bar chart here");
+            row2.getCell(1).setText("bar chart here");
+
+
+            //create third row
+//            XWPFTableRow row3 = table.createRow();
+//            row3.getCell(0).setText("Third Row, First Column");
+//            row3.getCell(1).setText("Third Row, Second Column");
+//            row3.getCell(2).setText("Third Row, Third Column");
+
+            // save to .docx file
+            try (FileOutputStream out = new FileOutputStream("D:\\Software\\Project presentation\\ApachePOI\\output\\table.docx")) {
+                doc.write(out);
+            }
+        }
+        System.out.println("Document with table is created");
+    }
+
+    // create chart to image
+
 }

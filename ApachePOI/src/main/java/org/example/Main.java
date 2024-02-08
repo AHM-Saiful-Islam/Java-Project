@@ -5,7 +5,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException, InvalidFormatException {
+    public static void main(String[] args) throws Exception {
         System.out.println("Apache POI!");
         // create PoiExcel class object
         PoiExcel poiExcel1 = new PoiExcel();
@@ -14,7 +14,7 @@ public class Main {
         // create PoiWord class object
         PoiWord poiWord1 = new PoiWord();
         // create a Word file by calling createWord method
-        poiWord1.createWordDoc1();
+        poiWord1.createWordReport();
         // create word file with 3 paragraph
         poiWord1.createWordDoc2();
         // create word file with 4 paragraph
@@ -23,6 +23,11 @@ public class Main {
         poiWord1.headerAndFooter();
         // create doc and add image
         poiWord1.adImage();
+        // create doc with table
+        poiWord1.createTable();
+        // create barChartWord obj
+        BarChartWord barChart1 = new BarChartWord();
+        barChart1.barChart();
 
     }
 }
